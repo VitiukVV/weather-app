@@ -1,7 +1,7 @@
-import styles from "./page.module.css";
+'use client';
 
-export default function Home() {
-  return (
-   <h1>Hello World</h1>
-  );
+import Cities from '@/components/cities';
+
+export default function HomePage() {
+  return <Cities />;
 }
