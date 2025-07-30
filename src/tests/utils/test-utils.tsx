@@ -1,17 +1,15 @@
-import { theme } from '@/app/theme';
+import { theme } from '@/styles/theme';
 import { ThemeProvider } from '@mui/material/styles';
 import { configureStore } from '@reduxjs/toolkit';
-import type { PreloadedState } from '@reduxjs/toolkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 
 import { rootReducer } from '@/store/root-reducer';
-import type { RootState } from '@/store/root-reducer';
 
 import type { City } from '@/types/store';
 import type { WeatherData } from '@/types/weather';
@@ -21,6 +19,7 @@ export const mockWeatherData: WeatherData = {
   temp: 20,
   humidity: 65,
   description: 'clear sky',
+  icon: '01d',
   windSpeed: 5.2,
 };
 
@@ -28,6 +27,8 @@ export const mockCity: City = {
   id: 'london-gb',
   name: 'London',
   country: 'GB',
+  lat: 51.5074,
+  lon: -0.1278,
   weather: mockWeatherData,
   lastUpdated: Date.now(),
 };
@@ -38,10 +39,13 @@ export const mockCities: City[] = [
     id: 'paris-fr',
     name: 'Paris',
     country: 'FR',
+    lat: 48.8566,
+    lon: 2.3522,
     weather: {
       temp: 18,
       humidity: 70,
       description: 'cloudy',
+      icon: '04d',
       windSpeed: 3.1,
     },
     lastUpdated: Date.now(),
@@ -50,6 +54,8 @@ export const mockCities: City[] = [
     id: 'tokyo-jp',
     name: 'Tokyo',
     country: 'JP',
+    lat: 35.6762,
+    lon: 139.6503,
     weather: null,
     lastUpdated: Date.now(),
   },
@@ -57,7 +63,7 @@ export const mockCities: City[] = [
 
 // Extended render function with providers
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'wrapper'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: any;
   store?: ReturnType<typeof configureStore>;
 }
 
@@ -124,68 +130,3 @@ export const mockUseCityAutocomplete = {
   clearSuggestions: jest.fn(),
   selectCity: jest.fn(),
 };
-
-// Setup common mocks
-export const setupMocks = () => {
-  // Mock next/navigation
-  jest.mock('next/navigation', () => ({
-    useRouter: () => mockRouter,
-    usePathname: () => '/',
-    useSearchParams: () => new URLSearchParams(),
-  }));
-
-  // Mock next/image
-  jest.mock('next/image', () => ({
-    __esModule: true,
-    default: (props: any) => <img {...props} alt={props.alt || ''} />,
-  }));
-
-  // Mock window.matchMedia
-  Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: jest.fn().mockImplementation(query => ({
-      matches: false,
-      media: query,
-      onchange: null,
-      addListener: jest.fn(),
-      removeListener: jest.fn(),
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
-    })),
-  });
-
-  // Mock IntersectionObserver
-  global.IntersectionObserver = class IntersectionObserver {
-    constructor() {}
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  };
-
-  // Mock window.getComputedStyle
-  Object.defineProperty(window, 'getComputedStyle', {
-    value: () => ({
-      getPropertyValue: () => '',
-    }),
-  });
-};
-
-// Custom matchers for testing
-expect.extend({
-  toBeVisibleToUser(received) {
-    const pass = received && !received.hidden && received.style.display !== 'none';
-    return {
-      message: () => `expected element ${pass ? 'not ' : ''}to be visible to user`,
-      pass,
-    };
-  },
-});
-
-declare global {
-  namespace jest {
-    interface Matchers<R> {
-      toBeVisibleToUser(): R;
-    }
-  }
-}

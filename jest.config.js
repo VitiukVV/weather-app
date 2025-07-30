@@ -3,8 +3,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
-    '\\.(scss|css|sass)$': 'identity-obj-proxy',
-    '\\.module\\.(scss|css|sass)$': 'identity-obj-proxy',
+    // Match all CSS/SCSS files including modules
+    '.*\\.(css|scss|sass)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {

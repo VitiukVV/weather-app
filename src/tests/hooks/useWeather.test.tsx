@@ -6,13 +6,34 @@ import React from 'react';
 
 import { useCurrentWeather } from '@/hooks/useWeather';
 
+import type { ApiWeatherData } from '@/types/api';
 import type { WeatherData } from '@/types/weather';
 
 // Mock the weather API
 jest.mock('@/api/weatherApi');
 const mockedWeatherApi = weatherApi as jest.Mocked<typeof weatherApi>;
 
-const mockWeatherData: WeatherData = {
+const mockApiWeatherData: ApiWeatherData = {
+  main: {
+    temp: 22,
+    humidity: 60,
+  },
+  weather: [
+    {
+      description: 'sunny',
+      icon: '01d',
+    },
+  ],
+  wind: {
+    speed: 3.5,
+  },
+  name: 'London',
+  sys: {
+    country: 'GB',
+  },
+};
+
+const expectedWeatherData: WeatherData = {
   temp: 22,
   humidity: 60,
   description: 'sunny',
@@ -43,7 +64,7 @@ describe('useCurrentWeather Hook', () => {
 
   describe('Successful API Calls', () => {
     it('fetches weather data successfully', async () => {
-      mockedWeatherApi.getCurrentWeather.mockResolvedValueOnce(mockWeatherData);
+      mockedWeatherApi.getCurrentWeather.mockResolvedValueOnce(mockApiWeatherData);
 
       const { result } = renderHook(() => useCurrentWeather('London'), {
         wrapper: createWrapper(),
@@ -57,7 +78,7 @@ describe('useCurrentWeather Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      expect(result.current.data).toEqual(mockWeatherData);
+      expect(result.current.data).toEqual(expectedWeatherData);
       expect(result.current.error).toBe(null);
       expect(mockedWeatherApi.getCurrentWeather).toHaveBeenCalledWith('London');
     });
@@ -97,15 +118,29 @@ describe('useCurrentWeather Hook', () => {
 
   describe('Refetch Functionality', () => {
     it('refetches data when refetch is called', async () => {
-      const updatedData = {
-        ...mockWeatherData,
+      const updatedApiData: ApiWeatherData = {
+        ...mockApiWeatherData,
+        main: {
+          ...mockApiWeatherData.main,
+          temp: 25,
+        },
+        weather: [
+          {
+            ...mockApiWeatherData.weather[0],
+            description: 'cloudy',
+          },
+        ],
+      };
+
+      const expectedUpdatedData: WeatherData = {
+        ...expectedWeatherData,
         temp: 25,
         description: 'cloudy',
       };
 
       mockedWeatherApi.getCurrentWeather
-        .mockResolvedValueOnce(mockWeatherData)
-        .mockResolvedValueOnce(updatedData);
+        .mockResolvedValueOnce(mockApiWeatherData)
+        .mockResolvedValueOnce(updatedApiData);
 
       const { result } = renderHook(() => useCurrentWeather('London'), {
         wrapper: createWrapper(),
@@ -116,14 +151,13 @@ describe('useCurrentWeather Hook', () => {
         expect(result.current.isLoading).toBe(false);
       });
 
-      expect(result.current.data).toEqual(mockWeatherData);
+      expect(result.current.data).toEqual(expectedWeatherData);
 
       // Refetch
       await result.current.refetch();
 
       await waitFor(() => {
-        expect(result.current.data?.temp).toBe(25);
-        expect(result.current.data?.description).toBe('cloudy');
+        expect(result.current.data).toEqual(expectedUpdatedData);
       });
 
       expect(mockedWeatherApi.getCurrentWeather).toHaveBeenCalledTimes(2);
