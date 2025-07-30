@@ -1,38 +1,279 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌤️ Weather SPA - Modern Weather Application
 
-## Getting Started
+A feature-rich Single Page Application for viewing weather in different cities, built with Next.js 15, TypeScript, and Material UI. Features dynamic themes, temperature charts, and optimized performance.
 
-First, run the development server:
+## ✨ Features
+
+- 🌍 **Smart city search** with autocomplete and debounced API calls
+- 📊 **Detailed weather information** with current conditions and forecasts
+- 📈 **Interactive temperature charts** using Recharts
+- 🎨 **Dynamic weather themes** with gradient backgrounds and icons
+- 💾 **Persistent storage** with Redux Persist and LocalStorage
+- 📱 **Fully responsive design** for all device sizes
+- 🔄 **Real-time weather updates** with auto-refresh functionality
+- 🗑️ **City management** - add, remove, and organize your cities
+- 🚀 **Performance optimized** with request cancellation and caching
+- 🌈 **Toast notifications** for better user feedback
+- ♿ **Accessibility compliant** with ARIA labels and keyboard navigation
+
+## 🚀 Quick Start
+
+### Requirements
+
+- **Node.js** 18+
+- **npm** or **yarn**
+- **OpenWeatherMap API key** (free tier available)
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd weather-app
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Create `.env.local` file in the project root:
+
+```env
+NEXT_PUBLIC_OPENWEATHER_API_KEY=your_openweather_api_key_here
+```
+
+4. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔧 Technologies & Tools
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Core Technologies
 
-## Learn More
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type safety and developer experience
+- **React 19** - Latest React features
+- **Material UI v7** - Comprehensive component library
+- **SCSS/Sass** - Advanced styling with variables and mixins
 
-To learn more about Next.js, take a look at the following resources:
+### State Management & Data
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Redux Toolkit** - Predictable state management
+- **Redux Persist** - State persistence across sessions
+- **TanStack Query v5** - Server state management and caching
+- **Axios** - HTTP client with interceptors
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### UI & Visualization
 
-## Deploy on Vercel
+- **Recharts** - Interactive charts and graphs
+- **Material Icons** - Consistent iconography
+- **React Hot Toast** - Elegant notifications
+- **Emotion** - CSS-in-JS styling
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Development & Testing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Jest** - Unit testing framework
+- **React Testing Library** - Component testing utilities
+- **ESLint** - Code linting with Next.js config
+- **Prettier** - Code formatting
+- **TypeScript** - Static type checking
 
-<!-- test commit -->
+## 📁 Project Structure
+
+```
+weather-app/
+├── src/
+│   ├── app/                     # Next.js App Router
+│   │   ├── layout.tsx          # Root layout with providers
+│   │   ├── page.tsx            # Home page
+│   │   ├── providers.tsx       # Redux & Query providers
+│   │   └── weather/[cityId]/   # Dynamic weather details route
+│   ├── components/             # Reusable React components
+│   │   ├── cityCard/           # City weather card module
+│   │   ├── cities/             # Cities list management
+│   │   ├── weatherDetails/     # Detailed weather view
+│   │   ├── CityAutocomplete/   # Smart city search
+│   │   ├── TemperatureChart/   # Interactive charts
+│   │   ├── BackButton/         # Navigation component
+│   │   └── form/               # Form components
+│   ├── api/                    # API layer
+│   │   ├── weatherApi.ts       # Weather data endpoints
+│   │   └── geocodeApi.ts       # City search endpoints
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useWeather.ts       # Weather data hooks
+│   │   └── useCityAutocomplete.ts # City search hook
+│   ├── store/                  # Redux store configuration
+│   │   ├── store.ts            # Store setup with persistence
+│   │   └── cities/             # Cities slice with actions
+│   ├── constants/              # Application constants
+│   │   ├── apiPaths.ts         # API endpoint definitions
+│   │   └── weatherIcons.ts     # Weather icon mappings
+│   ├── utils/                  # Utility functions
+│   │   ├── weatherThemes.ts    # Dynamic theme system
+│   │   └── axiosInstance.ts    # HTTP client configuration
+│   ├── styles/                 # Global styles and themes
+│   │   └── variables.scss      # SCSS variables and exports
+│   ├── types/                  # TypeScript type definitions
+│   │   ├── weather.ts          # Weather data types
+│   │   ├── store.ts            # Redux state types
+│   │   ├── api.ts              # API response types
+│   │   └── scss.d.ts           # SCSS module declarations
+│   └── tests/                  # Test files
+│       └── components/         # Component tests
+├── public/                     # Static assets
+├── .vscode/                    # VS Code settings
+├── jest.config.js              # Jest configuration
+├── jest.setup.js               # Jest setup file
+├── next.config.ts              # Next.js configuration
+├── tsconfig.json               # TypeScript configuration
+├── eslint.config.mjs           # ESLint configuration
+├── .prettierrc.json            # Prettier configuration
+├── README.md                   # Project documentation
+├── SETUP.md                    # Detailed setup guide
+└── LICENSE                     # MIT license
+```
+
+## 🧪 Testing
+
+### Run Tests
+
+```bash
+npm test                    # Run all tests
+npm run test:coverage       # Run tests with coverage report
+```
+
+### Test Coverage
+
+The project includes comprehensive tests for:
+
+- Component rendering and interactions
+- Custom hooks functionality
+- Redux store actions and reducers
+- API integration logic
+
+## 📦 Available Scripts
+
+```bash
+npm run dev                 # Start development server
+npm run build              # Build for production
+npm run start              # Start production server
+npm run lint               # Run ESLint
+npm run lint:fix           # Fix ESLint errors automatically
+npm run format             # Format code with Prettier
+npm run format:check       # Check code formatting
+npm test                   # Run Jest tests
+npm run test:coverage      # Run tests with coverage
+```
+
+## 🌐 API Integration
+
+The application integrates with [OpenWeatherMap API](https://openweathermap.org/api) for comprehensive weather data:
+
+### Endpoints Used:
+
+- **Current Weather API** - Real-time weather conditions
+- **5 Day Forecast API** - Extended weather predictions
+- **Geocoding API** - City search and coordinates
+
+### Features:
+
+- Automatic request debouncing and cancellation
+- Error handling and retry logic
+- Optimized caching with TanStack Query
+- Type-safe API responses
+
+## 🎨 UI/UX Features
+
+### Design System
+
+- **Material Design 3** principles
+- **Responsive breakpoints** for all devices
+- **Dynamic weather themes** with gradients and colors
+- **Smooth animations** and micro-interactions
+
+### Accessibility
+
+- ARIA labels and roles
+- Keyboard navigation support
+- Screen reader compatibility
+- High contrast support
+
+### Performance
+
+- Code splitting and lazy loading
+- Image optimization
+- Bundle size optimization
+- Caching strategies
+
+## 🔒 Security & Best Practices
+
+### Security Measures
+
+- Environment variables for sensitive data
+- Input validation and sanitization
+- XSS protection
+- HTTPS enforcement in production
+
+### Code Quality
+
+- TypeScript strict mode
+- ESLint and Prettier integration
+- Consistent code style
+- Comprehensive error boundaries
+
+## 🚀 Deployment
+
+### Build for Production
+
+```bash
+npm run build
+npm run start
+```
+
+### Environment Variables
+
+Required for production:
+
+```env
+NEXT_PUBLIC_OPENWEATHER_API_KEY=your_api_key
+```
+
+### Deployment Platforms
+
+- **Vercel** (recommended for Next.js)
+- **Netlify**
+- **AWS Amplify**
+- **Docker containers**
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Write tests for new features
+- Use conventional commit messages
+- Ensure accessibility compliance
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [OpenWeatherMap](https://openweathermap.org/) for weather data API
+- [Material UI](https://mui.com/) for component library
+- [Recharts](https://recharts.org/) for visualization components
+- [Next.js](https://nextjs.org/) team for the amazing framework
