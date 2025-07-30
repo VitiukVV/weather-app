@@ -1,3 +1,4 @@
+import { WEATHER_ICONS } from '@/constants/weatherIcons';
 import themeVariables from '@/styles/variables.scss';
 
 import type { WeatherData } from '@/types/weather';
@@ -8,52 +9,52 @@ export interface WeatherTheme {
   icon: string;
 }
 
-// Theme constants using SCSS variables
+// Theme constants using SCSS variables for colors/gradients and constants for icons
 const THEMES = {
   clear: {
-    bg: themeVariables.gradientClear,
-    color: themeVariables.colorClear,
-    icon: themeVariables.iconClear,
+    bg: themeVariables?.gradientClear || 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+    color: themeVariables?.colorClear || '#2c3e50',
+    icon: WEATHER_ICONS.clear,
   },
   rain: {
-    bg: themeVariables.gradientRain,
-    color: themeVariables.colorRain,
-    icon: themeVariables.iconRain,
+    bg: themeVariables?.gradientRain || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: themeVariables?.colorRain || '#1e3a8a',
+    icon: WEATHER_ICONS.rain,
   },
   snow: {
-    bg: themeVariables.gradientSnow,
-    color: themeVariables.colorSnow,
-    icon: themeVariables.iconSnow,
+    bg: themeVariables?.gradientSnow || 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
+    color: themeVariables?.colorSnow || '#1e40af',
+    icon: WEATHER_ICONS.snow,
   },
   thunder: {
-    bg: themeVariables.gradientThunder,
-    color: themeVariables.colorThunder,
-    icon: themeVariables.iconThunder,
+    bg: themeVariables?.gradientThunder || 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+    color: themeVariables?.colorThunder || '#1e293b',
+    icon: WEATHER_ICONS.thunder,
   },
   fog: {
-    bg: themeVariables.gradientFog,
-    color: themeVariables.colorFog,
-    icon: themeVariables.iconFog,
+    bg: themeVariables?.gradientFog || 'linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%)',
+    color: themeVariables?.colorFog || '#374151',
+    icon: WEATHER_ICONS.fog,
   },
   cloud: {
-    bg: themeVariables.gradientCloud,
-    color: themeVariables.colorCloud,
-    icon: themeVariables.iconCloud,
+    bg: themeVariables?.gradientCloud || 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+    color: themeVariables?.colorCloud || '#2e8b57',
+    icon: WEATHER_ICONS.cloud,
   },
   hot: {
-    bg: themeVariables.gradientHot,
-    color: themeVariables.colorHot,
-    icon: themeVariables.iconHot,
+    bg: themeVariables?.gradientHot || 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)',
+    color: themeVariables?.colorHot || '#8b0000',
+    icon: WEATHER_ICONS.hot,
   },
   warm: {
-    bg: themeVariables.gradientWarm,
-    color: themeVariables.colorWarm,
-    icon: themeVariables.iconWarm,
+    bg: themeVariables?.gradientWarm || 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+    color: themeVariables?.colorWarm || '#ff6b35',
+    icon: WEATHER_ICONS.warm,
   },
   cold: {
-    bg: themeVariables.gradientCold,
-    color: themeVariables.colorCold,
-    icon: themeVariables.iconCold,
+    bg: themeVariables?.gradientCold || 'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+    color: themeVariables?.colorCold || '#4682b4',
+    icon: WEATHER_ICONS.cold,
   },
 } as const;
 

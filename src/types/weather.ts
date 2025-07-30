@@ -6,47 +6,49 @@ export interface WeatherData {
   windSpeed: number;
 }
 
+export interface Coordinates {
+  lat: number;
+  lon: number;
+}
+
+export interface Weather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}
+
+export interface MainWeatherData {
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number;
+}
+
+export interface Wind {
+  speed: number;
+  deg: number;
+}
+
+export interface SystemData {
+  country: string;
+}
+
 export interface CurrentWeatherResponse {
-  coord: {
-    lat: number;
-    lon: number;
-  };
-  weather: Array<{
-    id: number;
-    main: string;
-    description: string;
-    icon: string;
-  }>;
-  main: {
-    temp: number;
-    feels_like: number;
-    pressure: number;
-    humidity: number;
-  };
-  wind: {
-    speed: number;
-    deg: number;
-  };
+  coord: Coordinates;
+  weather: Array<Weather>;
+  main: MainWeatherData;
+  wind: Wind;
   name: string;
-  sys: {
-    country: string;
-  };
+  sys: SystemData;
 }
 
 export interface HourlyForecastResponse {
   list: Array<{
     dt: number;
-    main: {
-      temp: number;
-      humidity: number;
-    };
-    weather: Array<{
-      description: string;
-      icon: string;
-    }>;
-    wind: {
-      speed: number;
-    };
+    main: Pick<MainWeatherData, 'temp' | 'humidity'>;
+    weather: Array<Pick<Weather, 'description' | 'icon'>>;
+    wind: Pick<Wind, 'speed'>;
   }>;
   city: {
     name: string;
