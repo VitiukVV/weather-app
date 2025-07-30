@@ -4,6 +4,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
     '\\.(scss|css|sass)$': 'identity-obj-proxy',
+    '\\.module\\.(scss|css|sass)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {
@@ -17,7 +18,20 @@ module.exports = {
       },
     ],
   },
-  testMatch: ['**/src/tests/**/*.test.(ts|tsx)'],
+  transformIgnorePatterns: ['node_modules/(?!(.*\\.mjs$))'],
+  testMatch: [
+    '**/src/tests/**/*.test.(ts|tsx)',
+    '**/src/**/__tests__/**/*.(ts|tsx)',
+    '**/src/**/*.(test|spec).(ts|tsx)',
+  ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  testTimeout: 10000,
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/tests/**/*',
+    '!src/**/*.stories.*',
+    '!src/**/*.config.*',
+  ],
 };
