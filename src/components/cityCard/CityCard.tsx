@@ -47,9 +47,8 @@ const CityCard: React.FC<CityCardProps> = ({ city }) => {
   const weatherThemeClass = useMemo(() => getWeatherThemeClass(weather || null), [weather]);
   const weatherIcon = useMemo(() => {
     const icon = getWeatherIcon(weather || null);
-    console.log('Weather icon for', city.name, ':', icon, 'Weather data:', weather);
     return icon;
-  }, [weather, city.name]);
+  }, [weather]);
 
   const handleRefresh = async () => {
     try {

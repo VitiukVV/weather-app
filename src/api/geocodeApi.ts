@@ -4,7 +4,14 @@ import axiosInstance from '@/utils/axiosInstance';
 
 import type { CitySuggestion } from '@/types/api';
 
-export const getCitySuggestions = async (query: string): Promise<CitySuggestion[]> => {
+interface GetCitySuggestionsOptions {
+  signal?: AbortSignal;
+}
+
+export const getCitySuggestions = async (
+  query: string,
+  options?: GetCitySuggestionsOptions,
+): Promise<CitySuggestion[]> => {
   if (!query.trim() || query.length < 2) {
     return [];
   }
@@ -16,6 +23,7 @@ export const getCitySuggestions = async (query: string): Promise<CitySuggestion[
         limit: 5,
         ...apiPaths.params,
       },
+      signal: options?.signal,
     });
 
     return response.data.map((city: any) => ({
@@ -30,6 +38,12 @@ export const getCitySuggestions = async (query: string): Promise<CitySuggestion[
     }));
   } catch (error) {
     console.error('Error fetching city suggestions:', error);
+
+    // Re-throw abort errors so they can be handled properly
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw error;
+    }
+
     return [];
   }
 };

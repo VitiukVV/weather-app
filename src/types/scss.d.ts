@@ -4,6 +4,6 @@ declare module '*.module.scss' {
 }
 
 declare module '*.scss' {
-  const content: { [key: string]: string };
-  export default content;
+  const exports: { [key: string]: string };
+  export default exports;
 }
