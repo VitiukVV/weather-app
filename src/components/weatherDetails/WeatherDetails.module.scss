@@ -1,0 +1,97 @@
+@use '@/styles/variables.scss' as vars;
+
+.current-weather-card {
+  margin-bottom: 24px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  &::before {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 3rem;
+    opacity: 0.1;
+    z-index: 0;
+    content: attr(data-icon);
+  }
+}
+
+.current-weather-content {
+  position: relative;
+  z-index: 1;
+}
+
+.current-temperature {
+  font-weight: bold;
+}
+
+.current-description {
+  text-transform: capitalize;
+}
+
+.weather-chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.weather-chip {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: inherit;
+}
+
+// Weather theme classes (reusing from CityCard)
+.current-weather-card {
+  &.theme-clear {
+    background: vars.$gradient-clear;
+    color: vars.$color-clear;
+  }
+
+  &.theme-rain,
+  &.theme-freezing {
+    background: vars.$gradient-rain;
+    color: vars.$color-rain;
+  }
+
+  &.theme-snow {
+    background: vars.$gradient-snow;
+    color: vars.$color-snow;
+  }
+
+  &.theme-thunder {
+    background: vars.$gradient-thunder;
+    color: vars.$color-thunder;
+  }
+
+  &.theme-fog {
+    background: vars.$gradient-fog;
+    color: vars.$color-fog;
+  }
+
+  &.theme-cloud,
+  &.theme-cool {
+    background: vars.$gradient-cloud;
+    color: vars.$color-cloud;
+  }
+
+  &.theme-hot {
+    background: vars.$gradient-hot;
+    color: vars.$color-hot;
+  }
+
+  &.theme-warm {
+    background: vars.$gradient-warm;
+    color: vars.$color-warm;
+  }
+
+  &.theme-cold {
+    background: vars.$gradient-cold;
+    color: vars.$color-cold;
+  }
+}

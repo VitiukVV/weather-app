@@ -1,0 +1,54 @@
+.temperature-chart {
+  margin: 24px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-title {
+  margin-bottom: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.chart-container {
+  height: 200px;
+  position: relative;
+
+  .recharts-wrapper {
+    font-family: inherit;
+  }
+
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: rgba(255, 255, 255, 0.1);
+  }
+
+  .recharts-line-curve {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .recharts-dot {
+    transition: all 0.2s ease;
+    &:hover {
+      r: 6;
+      stroke-width: 3;
+    }
+  }
+}
+
+.chart-tooltip {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.chart-tooltip-label {
+  font-weight: bold;
+}
+.chart-tooltip-value {
+  color: var(--mui-palette-primary-main, #1976d2);
+}

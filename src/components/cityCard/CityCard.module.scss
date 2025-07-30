@@ -1,0 +1,89 @@
+@use '@/styles/variables.scss' as vars;
+
+// Mixin for weather theme styles
+@mixin weather-theme($gradient, $color) {
+  background: $gradient;
+  color: $color;
+}
+
+.weather-card {
+  min-width: 275px;
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+
+  &::before {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 3rem;
+    opacity: 0.1;
+    z-index: 0;
+    content: attr(data-icon);
+  }
+
+  // Clear/Default theme
+  &.theme-clear {
+    @include weather-theme(vars.$gradient-clear, vars.$color-clear);
+  }
+
+  // Rain theme (also used for freezing)
+  &.theme-rain,
+  &.theme-freezing {
+    @include weather-theme(vars.$gradient-rain, vars.$color-rain);
+  }
+
+  // Snow theme
+  &.theme-snow {
+    @include weather-theme(vars.$gradient-snow, vars.$color-snow);
+  }
+
+  // Thunder/Storm theme
+  &.theme-thunder {
+    @include weather-theme(vars.$gradient-thunder, vars.$color-thunder);
+  }
+
+  // Fog/Mist theme
+  &.theme-fog {
+    @include weather-theme(vars.$gradient-fog, vars.$color-fog);
+  }
+
+  // Cloud theme (also used for cool)
+  &.theme-cloud,
+  &.theme-cool {
+    @include weather-theme(vars.$gradient-cloud, vars.$color-cloud);
+  }
+
+  // Hot temperature theme (≥30°C)
+  &.theme-hot {
+    @include weather-theme(vars.$gradient-hot, vars.$color-hot);
+  }
+
+  // Warm temperature theme (20-29°C)
+  &.theme-warm {
+    @include weather-theme(vars.$gradient-warm, vars.$color-warm);
+  }
+
+  // Cold temperature theme (0-9°C)
+  &.theme-cold {
+    @include weather-theme(vars.$gradient-cold, vars.$color-cold);
+  }
+}
+
+.icon-button {
+  color: inherit;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.weather-chip {
+  border-color: rgba(255, 255, 255, 0.3);
+  color: inherit;
+}

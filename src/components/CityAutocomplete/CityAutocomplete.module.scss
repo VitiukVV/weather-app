@@ -1,0 +1,23 @@
+.autocomplete-container {
+  width: 100%;
+}
+
+.autocomplete-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.autocomplete-option-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.autocomplete-option-name {
+  font-weight: 500;
+}
+
+.autocomplete-option-location {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.75rem;
+}
