@@ -41,7 +41,16 @@ const CityCard: React.FC<CityCardProps> = ({ city }) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const { data: weather, isLoading, refetch } = useCurrentWeather(city.name);
+
+  // Check if weather data is stale and force refresh if needed
+  const isStale = useMemo(() => {
+    if (!city.weather) return true;
+    const now = Date.now();
+    const staleThreshold = 10 * 60 * 1000; // 10 minutes
+    return now - city.lastUpdated > staleThreshold;
+  }, [city.weather, city.lastUpdated]);
+
+  const { data: weather, isLoading, refetch } = useCurrentWeather(city.name, true, isStale);
 
   // Memoize weather theme class and icon
   const weatherThemeClass = useMemo(() => getWeatherThemeClass(weather || null), [weather]);
@@ -64,6 +73,9 @@ const CityCard: React.FC<CityCardProps> = ({ city }) => {
       toast.error(`Failed to update weather data for ${city.name}`);
     }
   };
+
+  // Show loading state for automatic refresh
+  const showLoadingState = isLoading && isStale;
 
   const handleDeleteClick = () => {
     setIsDeleteDialogOpen(true);
@@ -108,6 +120,9 @@ const CityCard: React.FC<CityCardProps> = ({ city }) => {
                 disabled={isLoading}
                 aria-label="refresh weather"
                 className={styles['icon-button']}
+                sx={{
+                  opacity: showLoadingState ? 0.6 : 1,
+                }}
               >
                 <Refresh />
               </IconButton>
@@ -142,7 +157,7 @@ const CityCard: React.FC<CityCardProps> = ({ city }) => {
               },
             }}
           >
-            {isLoading ? (
+            {showLoadingState ? (
               <Skeleton variant="text" width="60%" />
             ) : weather ? (
               <>

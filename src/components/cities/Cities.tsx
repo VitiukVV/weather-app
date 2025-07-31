@@ -2,6 +2,8 @@
 
 import { Alert, Box, Typography } from '@mui/material';
 
+import { useAutoRefreshStaleWeather } from '@/hooks/useWeather';
+
 import { selectCities } from '@/store/cities/cities.selectors';
 import { useAppSelector } from '@/store/store';
 
@@ -11,6 +13,7 @@ import styles from './Cities.module.scss';
 
 const Cities = () => {
   const cities = useAppSelector(selectCities);
+  useAutoRefreshStaleWeather();
 
   return (
     <Box className={styles['cities-container']}>

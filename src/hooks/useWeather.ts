@@ -5,13 +5,15 @@ import { useCallback, useEffect, useMemo } from 'react';
 import toast from 'react-hot-toast';
 
 import { selectCityExists } from '@/store/cities/cities.selectors';
-import { addCity } from '@/store/cities/cities.slice';
+import { addCity, updateCityWeather } from '@/store/cities/cities.slice';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import type { ApiWeatherData, CitySuggestion } from '@/types/api';
+import type { City } from '@/types/store';
 import type { WeatherData } from '@/types/weather';
 
 const STALE_TIME = 5 * 60 * 1000; // 5 minutes
+const REFRESH_THRESHOLD = 10 * 60 * 1000; // 10 minutes - force refresh if data is older
 
 const transformWeatherData = (data: ApiWeatherData): WeatherData => ({
   temp: data.main.temp,
@@ -24,14 +26,19 @@ const transformWeatherData = (data: ApiWeatherData): WeatherData => ({
 // Utility function to create city ID
 const createCityId = (city: CitySuggestion) => `${city.name}-${city.country}`;
 
-// Shared weather query hook
-export const useCurrentWeather = (city: string, enabled: boolean = true) => {
+// Enhanced weather query hook with automatic refresh for stale data
+export const useCurrentWeather = (
+  city: string,
+  enabled: boolean = true,
+  forceRefresh: boolean = false,
+) => {
   return useQuery({
     queryKey: ['weather', city],
     queryFn: () => getCurrentWeather(city),
     enabled: !!city && enabled,
-    staleTime: STALE_TIME,
+    staleTime: forceRefresh ? 0 : STALE_TIME, // Force refresh if data is stale
     select: transformWeatherData,
+    refetchOnMount: forceRefresh, // Refetch on mount if data is stale
   });
 };
 
@@ -42,6 +49,34 @@ export const useHourlyForecast = (lat: number, lon: number) => {
     enabled: !!(lat && lon),
     staleTime: STALE_TIME,
   });
+};
+
+export const useAutoRefreshStaleWeather = () => {
+  const dispatch = useAppDispatch();
+  const cities = useAppSelector(state => state.cities.cities);
+
+  useEffect(() => {
+    const now = Date.now();
+
+    const staleCities = cities.filter(
+      city => !city.weather || now - city.lastUpdated > REFRESH_THRESHOLD,
+    );
+
+    if (staleCities.length === 0) return;
+
+    const refreshCityWeather = async (city: City) => {
+      try {
+        const data = await getCurrentWeather(city.name);
+        const weatherData = transformWeatherData(data);
+
+        dispatch(updateCityWeather({ id: city.id, weather: weatherData }));
+      } catch (error) {
+        console.error(`Failed to refresh weather for ${city.name}:`, error);
+      }
+    };
+
+    Promise.all(staleCities.map(refreshCityWeather)).catch(console.error);
+  }, [cities, dispatch]);
 };
 
 export const useAutoAddCityWeather = (

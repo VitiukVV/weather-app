@@ -2,19 +2,21 @@
 
 A feature-rich Single Page Application for viewing weather in different cities, built with Next.js 15, TypeScript, and Material UI. Features dynamic themes, temperature charts, and optimized performance.
 
-## ✨ Features
+## 🚀 Features
 
-- 🌍 **Smart city search** with autocomplete and debounced API calls
-- 📊 **Detailed weather information** with current conditions and forecasts
-- 📈 **Interactive temperature charts** using Recharts
-- 🎨 **Dynamic weather themes** with gradient backgrounds and icons
-- 💾 **Persistent storage** with Redux Persist and LocalStorage
-- 📱 **Fully responsive design** for all device sizes
-- 🔄 **Real-time weather updates** with auto-refresh functionality
-- 🗑️ **City management** - add, remove, and organize your cities
-- 🚀 **Performance optimized** with request cancellation and caching
-- 🌈 **Toast notifications** for better user feedback
-- ♿ **Accessibility compliant** with ARIA labels and keyboard navigation
+- **Real-time Weather Data**: Get current weather information for any city worldwide
+- **City Management**: Add, remove, and manage your favorite cities
+- **Weather Details**: View detailed weather information with hourly forecasts
+- **Responsive Design**: Beautiful, modern UI that works on all devices
+- **Offline Support**: Cities are persisted in localStorage
+- **Auto-refresh**: Automatically refreshes stale weather data on page load
+- **Manual Refresh**: Manual refresh button for each city
+- **Search & Autocomplete**: Smart city search with debounced input
+- **Weather Themes**: Dynamic themes based on weather conditions
+- **Accessibility**: Full keyboard navigation and screen reader support
+- **Interactive Charts**: Temperature charts using Recharts
+- **Performance Optimized**: Request cancellation and smart caching
+- **Toast Notifications**: Better user feedback and error handling
 
 ## 🚀 Quick Start
 
@@ -62,6 +64,23 @@ npm run dev
 - **React 19** - Latest React features
 - **Material UI v7** - Comprehensive component library
 - **SCSS/Sass** - Advanced styling with variables and mixins
+
+## 🔧 Technical Details
+
+### Weather Data Management
+
+- **Stale Time**: Weather data is considered fresh for 5 minutes
+- **Auto-refresh Threshold**: Data older than 10 minutes is automatically refreshed on page load
+- **Smart Caching**: Uses TanStack Query for efficient caching and background updates
+- **Persistent Storage**: Cities and their weather data are saved in localStorage via Redux Persist
+- **Optimistic Updates**: UI updates immediately while background refresh happens
+
+### Performance Optimizations
+
+- **Debounced Search**: City search is debounced to reduce API calls
+- **Selective Refetching**: Only stale data is refreshed, not all cities
+- **Loading States**: Visual feedback during automatic and manual refreshes
+- **Error Handling**: Graceful error handling with user-friendly messages
 
 ### State Management & Data
 
